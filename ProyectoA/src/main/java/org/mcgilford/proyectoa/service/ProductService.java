@@ -3,6 +3,7 @@ package org.mcgilford.proyectoa.service;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.mcgilford.proyectoa.dto.InventoryResponse;
 import org.mcgilford.proyectoa.dto.ProductRequest;
 import org.mcgilford.proyectoa.dto.ProductResponse;
@@ -18,7 +19,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -52,6 +53,7 @@ public class ProductService {
     }
     public List<ProductResponse> getProducts(@NonNull String query)
     {
+        log.info("Buscando productos con query {}", query);
         if(query.isBlank())
         {
             throw new IllegalArgumentException("El parámetro query es obligatorio");
@@ -80,6 +82,7 @@ public class ProductService {
                         response.setInventoryStatus("AVAILABLE");
                     }
                     else{
+                        log.warn("No hay mas producto de {} {}",product.getId(),product.getName());
                         response.setInventoryStatus("OUT_OF_STOCK");
                     }
                 }
@@ -93,6 +96,7 @@ public class ProductService {
             {
                 response.setStock(null);
                 response.setInventoryStatus("UNAVAILABLE");
+                log.warn("No fue posible consultar el inventario del producto {} {}", product.getId(), product.getName());
             }
             responses.add(response);
         }

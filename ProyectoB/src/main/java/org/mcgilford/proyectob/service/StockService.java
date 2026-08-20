@@ -2,17 +2,20 @@ package org.mcgilford.proyectob.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.mcgilford.proyectob.entity.Stock;
 import org.mcgilford.proyectob.repository.StockRepository;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StockService {
     private final StockRepository stockRepository;
     public Stock getProduct(String id)
     {
+        log.info("Consultando inventario del producto: {}", id);
+
         ///Stock stock= stockRepository.findById(id);
         //return stockRepository.findById(id).orElseThrow(()-> new RuntimeException("No encontrado"));
         return stockRepository.findById(id).orElseThrow(()->new RuntimeException("Falla al encontrar por ID"));

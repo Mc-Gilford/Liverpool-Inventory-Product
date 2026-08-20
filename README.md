@@ -2,7 +2,22 @@
 
 Aplicación backend la búsqueda de productos y consultar su disponibilidad mediante 2 microservicios independientes.
 
-El proyecto fue desarrollado con **Java 17**, **Spring Boot** y **Maven**. Cada microservicio tiene base de datos H2 y se ejecuta de manera independiente.
+Cada microservicio tiene base de datos H2 y se ejecuta de manera independiente.
+## Mejoras adicionales
+
+Se agregaron pruebas unitarias para `ProductService` y `StockService` utilizando JUnit y Mockito.
+
+Los servicios incluyen logs para mostrar las búsquedas, consultas y errores. También se agregaron Health Checks con Spring Boot Actuator:
+
+```text
+http://localhost:8081/actuator/health
+http://localhost:8082/actuator/health
+```
+
+La comunicación entre Product Service e Inventory Service tiene un timeout de conexión de 2 segundos y de respuesta de 3 segundos. Si Inventory Service no responde, el producto se devuelve con el estado `UNAVAILABLE`.
+
+También se agregaron validaciones en `ProductRequest` y `StockRequest` para evitar campos vacíos, precios negativos y cantidades de stock menores que cero.
+
 
 ## Microservicios
 
